@@ -86,7 +86,7 @@ class Game
     def play
         while @board.empty_positions?
             @board.print
-            $pot = @current_player.get_position
+            $pot = @current_player.get_position(@board.legal_positions)
             @board.place_mark($pot, @current_mark)
 
             if @board.win?(@current_mark)
