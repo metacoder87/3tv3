@@ -53,6 +53,25 @@ class Board
        @grid[position[0]][position[1]]
     end
 
+# Board#legal_positions
+
+# This method should return an array containing all positions of the board that are 
+# legal to place a new mark on. That is, the returned positions should not already 
+# contain a mark and also be "in-bounds" on the grid.
+
+    def legal_positions
+        arr = []
+        @grid.each_with_index do |row, idx|
+            row.each_with_index do |col, i|
+                position = [idx, i]
+                if empty?(position)
+                    arr << position
+                end
+            end
+        end
+        arr
+    end
+
 # Board#place_mark(position, mark)
 
 # This method should assign the given mark to the specified position of the grid. 
