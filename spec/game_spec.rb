@@ -1,16 +1,16 @@
             # meta_coder (Gary Miller) =)
             # gmiller052611@gmail.com
-            # https://github.com/metacoder87/App-Academy-Projects
+            # https://github.com/metacoder87/3tv3
 
 
 require 'game'
 require 'board'
 
 describe "Game" do
-  let(:game) { Game.new(3) }
+  let(:game) { Game.new(4, X: false, Y: true, Z: false) }
 
     describe "#initialize" do
-      it "should accept a number, n, as an arg" do
+      it "should accept a number, n, as an arg and a hash" do
         game
       end
 
@@ -21,30 +21,14 @@ describe "Game" do
 
       it "should set @current_player to the first player" do
         player = game.instance_variable_get(:@current_player)
-        expect(player).to be($player_1)
+        first_player = game.instance_variable_get(:@players)
+        expect(first_player[0]).to be(player)
       end
+
     end
-
-    # describe "get_marks" do
-    #   it "should print 'Player 1 enter your mark : '" do
-    #     input = double(:X, :chomp=>"X")
-    #     allow(game).to receive(:gets).and_return(input)
-
-    #     expect { game.get_marks }.to output(/Player 1 enter your mark : /).to_stdout
-    #   end
-
-    #   it "it should call gets.chomp to get input from the user" do
-    #     input = double(:X, :chomp=>"X")
-    #     allow(game).to receive(:gets).and_return(input)
-
-    #     expect(input).to receive(:chomp)
-    #     expect(game).to receive(:gets)
-    #     game.get_marks
-    #   end
-    # end
 
 end
 
             # meta_coder (Gary Miller) =)
             # gmiller052611@gmail.com
-            # https://github.com/metacoder87/App-Academy-Projects
+            # https://github.com/metacoder87/3tv3
