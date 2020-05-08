@@ -1,6 +1,6 @@
             # meta_coder (Gary Miller) =)
             # gmiller052611@gmail.com
-            # https://github.com/metacoder87/App-Academy-Projects
+            # https://github.com/metacoder87/3tv3
 
 class HumanPlayer
 
@@ -30,7 +30,8 @@ class HumanPlayer
 # in the specified format, such as if they only enter a single number, use letters, 
 # or have too many spaces.
 
-# HumanPlayer#get_position(legal_positions)
+# HumanPlayer#get_position(legal_positions) (refactor)
+
 # Refactor this method to accept an array of positions as an argument. If the user 
 # enters a position that is not inside of the array argument, tell them that their 
 # choice was illegal and prompt them to enter another. This method should continue 
@@ -63,7 +64,6 @@ class HumanPlayer
 
 end
 
-
             # meta_coder (Gary Miller) =)
             # gmiller052611@gmail.com
-            # https://github.com/metacoder87/App-Academy-Projects
+            # https://github.com/metacoder87/3tv3

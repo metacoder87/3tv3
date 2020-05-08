@@ -1,6 +1,6 @@
             # meta_coder (Gary Miller) =)
             # gmiller052611@gmail.com
-            # https://github.com/metacoder87/App-Academy-Projects
+            # https://github.com/metacoder87/3tv3
 
 
 class Board
@@ -27,15 +27,6 @@ class Board
         @grid = Array.new(n) { Array.new(n).fill(:_) }
         @length = n
     end
-
-# Board#valid?(position)
-
-# This method should return a boolean indicating whether or not the specified position 
-# is valid for the board, meaning the position is not "out of bounds."
-
-    # def valid?(position)
-    #     position.all? { |num| (0...@length).include?(num) }
-    # end
 
 # Board#empty?(position)
 
@@ -83,11 +74,6 @@ class Board
       end  
     end
 
-# Checkpoint - Board yet?
-# At this point you've written a few Board methods that are critical to the gameplay. 
-# Now's a good opportunity to pause and test our code for correctness. A quick way 
-# to test is to use pry.
-
 # Board#print
 
 # This method should simply print out the board and all of the marks that have been 
@@ -131,11 +117,15 @@ class Board
         end
     end
 
+    #tl_br_win?(mark) checks the Top Left to the Bottom Right for a diagonal win.
+
     def tl_br_win?(mark)
         (0...@length).all? do |n|
             @grid[n][n] == mark
         end
     end
+
+    #bl_tr_win?(mark) checks the Bottom Left to the Top Right for a diagonal win.
 
     def bl_tr_win?(mark)
         arr = (0...@length).map { |nums| nums }
@@ -173,16 +163,8 @@ class Board
         @grid.any? { |row| row.any? { |ele| ele == :_ } }
     end
 
-# Checkpoint - You're all winners
-# If you haven't already, take a moment to use pry to test your win-checking logic. 
-# Use your #place_mark to set the board up and #print to visually verify any winners. 
-# We'll leave it to you to decide reasonable test scenarios. As a rule of thumb for 
-# methods with boolean returns, be sure to test for "false-positives" and "false-
-# negatives". In other words, verify that #win? and the related methods return true 
-# when they should and return false when they should. Don't forget to test your 
-# #empty_positions? method as well!
 end
 
             # meta_coder (Gary Miller) =)
             # gmiller052611@gmail.com
-            # https://github.com/metacoder87/App-Academy-Projects
+            # https://github.com/metacoder87/3tv3

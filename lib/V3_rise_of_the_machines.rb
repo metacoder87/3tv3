@@ -130,6 +130,7 @@
 # Do any other testing that you see fit before moving on.
 
 # Game#initialize
+
 # Refactor this method to accept an option hash instead of an arbitrary number of 
 # marks (we previously implemented that in version 2). A hash is a great choice 
 # here because we now need to communicate two details per player: their mark and 
@@ -157,7 +158,9 @@
 #   #<Board:0x
 #    @grid=[["_", "_", "_", "_"], ["_", "_", "_", "_"], ["_", "_", "_", "_"], 
 #    ["_", "_", "_", "_"]]>
+
 # Game#play
+
 # Only one more refactor and we'll have our final product! Refactor this method 
 # slightly to account for our new argument required for #get_position. That is, 
 # be sure to pass in the board's legal positions for the player to choose from.

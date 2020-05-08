@@ -14,7 +14,7 @@ class ComputerPlayer
 # with no annoying side-effects. The #initialize for a computer should be identical 
 # to that of a human.
 
-        attr_reader :mark_value 
+    attr_reader :mark_value 
 
     def initialize(mark_value)
         @mark_value = mark_value
