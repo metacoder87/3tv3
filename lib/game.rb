@@ -21,13 +21,32 @@ class Game
 # You should also initialize an instance variable to contain the current player. 
 # By default, player one should begin as the current player.
 
-    def initialize(n, *marks)
+# Game#initialize (refactor)
+
+# Refactor this method to accept an option hash instead of an arbitrary number of 
+# marks (we previously implemented that in version 2). A hash is a great choice 
+# here because we now need to communicate two details per player: their mark and 
+# whether they are human or computer. We also have the upshot of hash keys necessarily 
+# being unique. This is convenient because for proper gameplay we must have unique 
+# marks among the players!
+
+# Assume that the keys of the hash are the marks and the values are booleans. 
+# Interpret false as a human and true as a computer. The order of players in the 
+# hash should dictate the order that they take their turns.
+
+    def initialize(n, hash = {})
         @players = []
-        @marks = marks.each do |mark| 
-            @players << HumanPlayer.new(mark)
+        @marks = []
+        @hash = hash.each_pair do |mark, boo|
+            if boo == true
+                @players << ComputerPlayer.new(mark)
+            else
+                @players << HumanPlayer.new(mark)
+            end
+            @marks << mark
         end
         @current_player = @players[0]
-        @current_mark = @marks[0]
+        @current_mark = @marks.first
         @board = Board.new(n)
     end
 
@@ -82,6 +101,12 @@ class Game
 #     scenarios to test are: player one winning, player two winning, and a draw.
 # If any errors are raised during gameplay, your game loop and #play method will 
 # end immediately, so you'll have to start a new game and retry!
+
+# Game#play (refactor)
+
+# Only one more refactor and we'll have our final product! Refactor this method 
+# slightly to account for our new argument required for #get_position. That is, 
+# be sure to pass in the board's legal positions for the player to choose from.
 
     def play
         while @board.empty_positions?
