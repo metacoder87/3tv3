@@ -30,11 +30,25 @@ class HumanPlayer
 # in the specified format, such as if they only enter a single number, use letters, 
 # or have too many spaces.
 
-    def get_position
+# HumanPlayer#get_position(legal_positions)
+# Refactor this method to accept an array of positions as an argument. If the user 
+# enters a position that is not inside of the array argument, tell them that their 
+# choice was illegal and prompt them to enter another. This method should continue 
+# to prompt the user until they make a legal choice.
+
+    def get_position(legal_positions)
         puts "#{@mark_value}, enter a spot on the board with x & y coordinates seperated with a space like '1 0'"
         move = gets.chomp.split(" ")
         move.map! { |ele| ele.to_i }
+            while !legal_positions.include?(move)
+                puts "Illegal move choice, try again."
+                move = gets.chomp.split(" ")
+                move.map! { |ele| ele.to_i }
+            end
+        move
     end
+
+
 
 # No need to verify if the position they entered is a valid position in this class. 
 # That validation requires knowledge of the board and we want to keep our concerns 
