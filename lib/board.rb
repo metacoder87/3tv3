@@ -33,9 +33,9 @@ class Board
 # This method should return a boolean indicating whether or not the specified position 
 # is valid for the board, meaning the position is not "out of bounds."
 
-    def valid?(position)
-        position.all? { |num| (0...@length).include?(num) }
-    end
+    # def valid?(position)
+    #     position.all? { |num| (0...@length).include?(num) }
+    # end
 
 # Board#empty?(position)
 
@@ -78,11 +78,8 @@ class Board
 # It should raise an error when the position is not #valid? or not #empty?.
 
     def place_mark(position, mark)
-      if valid?(position) && empty?(position) 
+      if empty?(position) 
             @grid[position[0]][position[1]] = mark
-      elsif  empty?(position) && valid?(position)
-                @grid[position[0]][position[1]] = mark
-      else puts 'try again'
       end  
     end
 
