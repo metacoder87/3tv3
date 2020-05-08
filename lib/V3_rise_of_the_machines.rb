@@ -1,134 +1,124 @@
-# Version 2: Make it scalable
-# Make a copy of your entire tic_tac_toe_v1 directory and rename it tic_tac_toe_v2. 
-# Open the version 2 in your editor and terminal so we can refactor it to support 
-# more features. This will be our new working directory.
+# Version 3: Rise of the machines
+# Make a copy of your entire tic_tac_toe_v2 directory and rename it tic_tac_toe_v3. Open the version 3 in your editor and terminal so we can refactor it to support more features. This will be our new working directory.
 
-# Our goal for this version is to make the game scale on two fronts:
+# Our goal for this version is to implement a simple ComputerPlayer class that will play randomly. We will also add some improved error handling for our existing HumanPlayers.
 
-# support a dynamic board size
-# support more than two players
-# Board size refactor
-# We need to change a few things to support any size board. We'll mention a few 
-# general todos, but you may need to change more if you hard-coded a 3x3 size in 
-# your first iteration.
+# Let's begin by adding a new file in our working directory to house ComputerPlayer:
 
-# Board#initialize
-# Refactor this method to accept a number argument, n. The grid should be set to a 
-# 2-dimensional array with size 'n x n', instead of '3 x 3'. It's worth noting that 
-# the grid will always be a square (meaning its height is equal to its width). This 
-# will somewhat simplify things as we refactor our other methods.
+# tic_tac_toe_v3/
+# ├── computer_player.rb
+# ├── human_player.rb
+# ├── board.rb
+# └── game.rb
+# Refactoring for random positions
+# Our ComputerPlayer artificial intelligence will be naive. When it is their turn, a computer will play a random position on the board. However, we'll want ensure that the computers will choose a position that is legal according to Board#empty? and Board#valid?. To implement this we, could just continually "guess and check" random positions until a legal position is stumbled upon, but this is a rather wasteful strategy. Instead, it would be much more wise to provide a list of legal positions to the ComputerPlayer from which they may randomly select.
 
-# Consider refactoring these critical board 
-# methods if they contain any hardcoded values:
+# Here is where we must make a design decision founded on object oriented principles. We should try our best to keep all board and position related logic inside of Board. Although our new major feature is ComputerPlayer, it is apparent that the Board class also needs to provide additional information for a ComputerPlayer to consume.
 
-# #valid?
-# #print
-# #win_row?
-# #win_col?
-# #win_diagonal
-# #win?
-# #empty_positions?
-# Checkpoint - Test the fruits of your labor(ed)
-# Load board.rb using pry. Create different sized boards and invoke all board 
-# methods on them. Here are our initial tests, but you should be much more thorough:
+# Board#legal_positions
+# This method should return an array containing all positions of the board that are legal to place a new mark on. That is, the returned positions should not already contain a mark and also be "in-bounds" on the grid.
+
+# ComputerPlayer#initialize
+# An instance of ComputerPlayer should have the same interface as a HumanPlayer. This means that both classes should have the same method names, but may implement these methods using different logic. Having a consistent interface for all types of players will allow us to use computers and humans interchangeably in a game with no annoying side-effects. The #initialize for a computer should be identical to that of a human.
+
+# The programming paradigm we leverage here is known as duck typing. If an object walks like a duck and quacks like a duck, then we can use it as a duck for all intents and purposes. In our game, we have duck typed HumanPlayer and ComputerPlayer.
+
+# ComputerPlayer#get_position(legal_positions)
+# Assume that this method takes in an array of positions as an argument. The method should return a random position from the array. To make gameplay clear, print a message saying the computer's mark along with the position they chose.
+
+# Unlike our new ComputerPlayer#get_position, you may recall that our old HumanPlayer#get_position did not accept any argument. This discrepancy in interface will cause issues. We'll reconcile this difference next.
+
+# HumanPlayer#get_position(legal_positions)
+# Refactor this method to accept an array of positions as an argument. If the user enters a position that is not inside of the array argument, tell them that their choice was illegal and prompt them to enter another. This method should continue to prompt the user until they make a legal choice.
+
+# Checkpoint - Turing's test†
+# Before we go any further, let's take a moment to verify the behavior of all of the methods we created or refactored. We'll test them in isolation of one another before we connect them together.
+
+# Here's is the pry workflow we used to test our board:
 
 # [1] pry(main)> load 'board.rb'
 # => true
 
-# [2] pry(main)> small = Board.new(4)
-# => #<Board:0x
-#  @grid=[
-#    ["_", "_", "_", "_"],
-#    ["_", "_", "_", "_"],
-#    ["_", "_", "_", "_"],
-#    ["_", "_", "_", "_"]]
-#    >
+# [2] pry(main)> my_board = Board.new(2)
+# => #<Board:0x @grid=[["_", "_"], ["_", "_"]]>
 
-# [3] pry(main)> large = Board.new(6)
-# => #<Board:0x
-#  @grid=
-#   [["_", "_", "_", "_", "_", "_"],
-#    ["_", "_", "_", "_", "_", "_"],
-#    ["_", "_", "_", "_", "_", "_"],
-#    ["_", "_", "_", "_", "_", "_"],
-#    ["_", "_", "_", "_", "_", "_"],
-#    ["_", "_", "_", "_", "_", "_"]]>
+# [3] pry(main)> my_board.legal_positions
+# => [[0, 0], [0, 1], [1, 0], [1, 1]]
 
-# [4] pry(main)> small.valid?([3, 3])
+# [4] pry(main)> my_board.place_mark([0, 1], :Z)
+# => :Z
+
+# [5] my_board.legal_positions
+# => [[0, 0], [1, 0], [1, 1]]
+# Let's also test our humans. Since #getPositions simply expects an array as its argument, we can pass in some "mock" data that doesn't really come from any board. Don't forget that abstraction is a pillar of object oriented programming. Our #getPositions just cares about being given an array, it doesn't care exactly where that array comes from:
+
+# [1] pry(main)> load 'human_player.rb'
 # => true
 
-# [5] pry(main)> small.valid?([5, 5])
-# => false
+# [2] pry(main)> dave = HumanPlayer.new(:X)
+# => #<HumanPlayer:0x @mark=:X>
 
-# [6] pry(main)> large.valid?([5, 5])
+# [3] pry(main)> positions = [[1, 2], [3, 4], [4, 3]]
+# => [[1, 2], [3, 4], [4, 3]]
+
+# [4] pry(main)> dave.get_position(positions)
+# Player X, enter two numbers representing a position in the format `row col`
+# 3 4
+# => [3, 4]
+
+# [5] pry(main)> dave.get_position(positions)
+# Player X, enter two numbers representing a position in the format `row col`
+# 2 5
+# [2, 5] is not a legal position
+# Player X, enter two numbers representing a position in the format `row col`
+# 1 2
+# => [1, 2]
+# Finally, let's verify our AI:
+
+# [1] pry(main)> load 'computer_player.rb'
 # => true
+
+# [2] pry(main)> hal_9000 = ComputerPlayer.new(:Y)
+# => #<ComputerPlayer:0x @mark=:Y>
+
+# [3] pry(main)> positions = [[1, 2], [3, 4], [4, 3]]
+# => [[1, 2], [3, 4], [4, 3]]
+
+# [4] pry(main)> hal_9000.get_position(positions)
+# Computer Y chose position [1, 2]
+# => [1, 2]
+
+# [5] pry(main)> hal_9000.get_position(positions)
+# Computer Y chose position [3, 4]
+# => [3, 4]
+# Do any other testing that you see fit before moving on.
+
 # Game#initialize
-# Refactor this method to also accept a number for the board size as the first argument.
+# Refactor this method to accept an option hash instead of an arbitrary number of marks (we previously implemented that in version 2). A hash is a great choice here because we now need to communicate two details per player: their mark and whether they are human or computer. We also have the upshot of hash keys necessarily being unique. This is convenient because for proper gameplay we must have unique marks among the players!
 
-# That should be all we need to refactor, since we designed our version 1 to avoid 
-# as much coupling to Board as possible. However, take a moment to scan the rest 
-# of your Game and HumanPlayer class to be sure.
-
-# Use pry to play a few games of varying size to completion before continuing further.
-
-# Number of players refactor
-# Adding support for any number of players should require a decent refactor of the 
-# Game class, but no major changes to HumanPlayer. The only logic that should change 
-# is how we decide which player should move, but the capabilities of any single 
-# player remains unchanged.
-
-# Game#initialize
-# An instance of Game will now need to track an array of many players instead of 
-# just two. Make this an instance variable. Allow your #initialize to accept any 
-# number of mark values. The number of marks passed to #initialize will decide how 
-# many players are in the game.
-
-# Game#switch_turn
-# For our switching logic, we'll use a "Round Robin" strategy. This means that 
-# players continually take turns in the same order. For example, if we had players 
-# A, B, and C, then the turns would be ABCABCABC... until the game is over.
-
-# For simplicity, we'll always designate whoever is at the front of the array as 
-# the current player. Consider using Array#rotate! to accomplish this.
-
-# Test the switching logic in isolation using pry. Here is how our class works:
+# Assume that the keys of the hash are the marks and the values are booleans. Interpret false as a human and true as a computer. The order of players in the hash should dictate the order that they take their turns. For example, the following game would entail three players of X (human), Y (computer), and Z (human) playing on a 4 by 4 board:
 
 # [1] pry(main)> load 'game.rb'
 # => true
 
-# [2] pry(main)> g = Game.new(4, 'A', 'B', 'C')
+# [2] pry(main)> Game.new(4, X: false, Y: true, Z: false)
 # => #<Game:0x
+#  @players=
+#   [#<HumanPlayer:0x @mark=:X>,
+#    #<ComputerPlayer:0x @mark=:Y>,
+#    #<HumanPlayer:0x @mark=:Z>]>,
+#  @current_player=#<HumanPlayer:0x @mark=:X>,
 #  @board=
 #   #<Board:0x
-#    @grid=[["_", "_", "_", "_"],
-#           ["_", "_", "_", "_"],
-#           ["_", "_", "_", "_"],
-#           ["_", "_", "_", "_"]]>,
-#  @current_player=#<HumanPlayer:0x @mark="A">,
-#  @players=
-#   [#<HumanPlayer:0x @mark="A">,
-#    #<HumanPlayer:0x @mark="B">,
-#    #<HumanPlayer:0x @mark="C">]>
+#    @grid=[["_", "_", "_", "_"], ["_", "_", "_", "_"], ["_", "_", "_", "_"], ["_", "_", "_", "_"]]>
+# Game#play
+# Only one more refactor and we'll have our final product! Refactor this method slightly to account for our new argument required for #get_position. That is, be sure to pass in the board's legal positions for the player to choose from.
 
-# [3] pry(main)> g.switch_turn
-# => #<HumanPlayer:0x @mark="B">
+# That's it. Play some diverse games with computers and humans to test your work. You've done some amazing object oriented programming if you've gotten to this point. Sit back, relax, and reward yourself by running this snippet in pry:
 
-# [4] pry(main)> g.switch_turn
-# => #<HumanPlayer:0x @mark="C">
+# load 'game.rb'
+# machine_civil_war = Game.new(10, h: true, u: true, e: true)
+# machine_civil_war.play
+# No skynet anytime soon.
 
-# [5] pry(main)> g
-# => #<Game:0x
-#  @board=
-#   #<Board:0x
-#    @grid=[["_", "_", "_", "_"],
-#           ["_", "_", "_", "_"],
-#           ["_", "_", "_", "_"],
-#           ["_", "_", "_", "_"]]>,
-#  @current_player=#<HumanPlayer:0x @mark="C">,
-#  @players=
-#   [#<HumanPlayer:0x @mark="C">,
-#    #<HumanPlayer:0x @mark="A">,
-#    #<HumanPlayer:0x @mark="B">]>
-# After you see that the current player is switching properly, you should be able 
-# to play your game! Play a few rounds of varying size for good measure. 
-# Pretty neat, huh?
+# †The Turing test
