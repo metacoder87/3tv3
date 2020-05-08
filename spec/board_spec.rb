@@ -1,6 +1,6 @@
             # meta_coder (Gary Miller) =)
             # gmiller052611@gmail.com
-            # https://github.com/metacoder87/App-Academy-Projects
+            # https://github.com/metacoder87/3tv3
 
 
 require "board"
@@ -33,28 +33,6 @@ describe "Board" do
       it "should make each subarray of @grid refer to a distinct array" do
         grid = board.instance_variable_get(:@grid)
         expect(grid[0]).to_not be(grid[1])
-      end
-    end
-
-    describe "#valid?" do
-      it "should accept an array of a pair of indices in the form [row, column] representing a position on the @board" do
-        position = [0, 0]
-        expect{board.valid?(position)}.to_not raise_error
-      end
-
-      it "should return true if the board contains the given position" do
-        grid = board.instance_variable_get(:@grid)
-
-        pos_1 = [1, 0]
-        expect(board.valid?(pos_1)).to eq(true)
-      end
-
-      it "should return false if the given position is beyond the boundaries" do
-        grid = board.instance_variable_get(:@grid)
-        length = board.instance_variable_get(:@length)
-        pos_2 = [length + 2, length + 4]
-        expect(board.valid?(pos_2)).to be(false)
-        
       end
     end
 
@@ -94,18 +72,9 @@ describe "Board" do
         expect(board.place_mark(pos_1, mark_1)).to eq(:X)
       end
 
-      it "should not set position if the given position of @grid has a mark" do
+      it "should call Board#empty? to check the @grid" do
         pos_1 = [1, 1]
         mark_1 = :X
-        mark_2 = :O
-        board.place_mark(pos_1,mark_1)
-        expect{board.place_mark(pos_1,mark_2)}.to output(/try again/).to_stdout
-      end
-
-      it "should call Board#valid? and Board#empty? to check the @grid" do
-        pos_1 = [1, 1]
-        mark_1 = :X
-        expect(board).to receive(:valid?)
         expect(board).to receive(:empty?)
         board.place_mark(pos_1, mark_1)
       end
@@ -209,4 +178,4 @@ describe "Board" do
 end
             # meta_coder (Gary Miller) =)
             # gmiller052611@gmail.com
-            # https://github.com/metacoder87/App-Academy-Projects
+            # https://github.com/metacoder87/3tv3
