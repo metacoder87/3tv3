@@ -57,6 +57,18 @@ describe "Board" do
       end
     end
 
+    describe "#legal_positions" do
+      board = Board.new(2)
+      it "should return an array of all the available spaces for a mark to be placed" do
+        expect(board.legal_positions).to eq([[0, 0], [0, 1], [1, 0], [1, 1]])
+      end
+      
+      it "should update as the available spots are chosen and no longer available" do
+        board.place_mark([0, 1], :Z)
+        expect(board.legal_positions).to eq([[0, 0], [1, 0], [1, 1]])
+      end
+    end
+
     describe "#place_mark" do
       it "should accept a position and mark as args" do
         grid = board.instance_variable_get(:@grid)
