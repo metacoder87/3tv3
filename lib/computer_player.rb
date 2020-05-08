@@ -3,7 +3,7 @@
             # https://github.com/metacoder87/3tv3
 
 
-    # computer_player
+class ComputerPlayer
 
 # ComputerPlayer#initialize
 
@@ -31,3 +31,5 @@
         puts "#{@mark_value} chose #{chosen}."
         chosen
     end
+
+end
