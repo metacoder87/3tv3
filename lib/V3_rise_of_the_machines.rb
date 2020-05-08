@@ -68,7 +68,7 @@
 
 # Here's is the pry workflow we used to test our board:
 
-# [1] pry(main)> load 'board.rb'
+# [1] pry(main)> load 'lib/board.rb'
 # => true
 
 # [2] pry(main)> my_board = Board.new(2)
@@ -88,7 +88,7 @@
 # #getPositions just cares about being given an array, it doesn't care exactly where 
 # that array comes from:
 
-# [1] pry(main)> load 'human_player.rb'
+# [1] pry(main)> load 'lib/human_player.rb'
 # => true
 
 # [2] pry(main)> dave = HumanPlayer.new(:X)
@@ -111,7 +111,7 @@
 # => [1, 2]
 # Finally, let's verify our AI:
 
-# [1] pry(main)> load 'computer_player.rb'
+# [1] pry(main)> load 'lib/computer_player.rb'
 # => true
 
 # [2] pry(main)> hal_9000 = ComputerPlayer.new(:Y)
@@ -144,7 +144,7 @@
 # following game would entail three players of X (human), Y (computer), and Z 
 # (human) playing on a 4 by 4 board:
 
-# [1] pry(main)> load 'game.rb'
+# [1] pry(main)> load 'lib/game.rb'
 # => true
 
 # [2] pry(main)> Game.new(4, X: false, Y: true, Z: false)
@@ -169,9 +169,10 @@
 # You've done some amazing object oriented programming if you've gotten to this 
 # point. Sit back, relax, and reward yourself by running this snippet in pry:
 
-# load 'game.rb'
+# load 'lib/computer_player.rb'
+# load 'lib/game.rb'
 # machine_civil_war = Game.new(10, h: true, u: true, e: true)
-# machine_civil_war.play
+# machine_civil_war.play => "Draw Game, no winner."
 # No skynet anytime soon.
 
 # †The Turing test
